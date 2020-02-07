@@ -1,0 +1,22 @@
+Package: multipage
+Title: Multipage layouts for ggplot2
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jan Broder",
+           family = "Engler",
+           role = c("aut", "cre"),
+           email = "broder.engler@gmail.com",
+           comment = c(ORCID = "0000-0002-3169-2076"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    ggplot2,
+    dplyr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1

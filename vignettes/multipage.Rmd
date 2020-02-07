@@ -1,0 +1,165 @@
+---
+title: "multipage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{multipage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Generate demo plots
+
+```{r message=FALSE, warning=FALSE}
+# devtools::install_github("thomasp85/patchwork")
+
+library(tidyverse)
+library(patchwork)
+library(multipage)
+
+p1 <- ggplot(mtcars) +
+  geom_point(aes(mpg, disp)) +
+  ggtitle('Plot 1')
+
+p2 <- ggplot(mtcars) +
+  geom_boxplot(aes(gear, disp, group = gear)) +
+  ggtitle('Plot 2')
+
+p3 <- ggplot(mtcars) +
+  geom_point(aes(hp, wt, colour = mpg)) +
+  ggtitle('Plot 3')
+
+p4 <- ggplot(mtcars) +
+  geom_bar(aes(gear)) +
+  ggtitle('Plot 4')
+
+patchwork1 <-
+  p1 + p2 + p3 + p4 +
+  plot_layout(
+    ncol = 4,
+    widths = unit(c(50, 25, 50, 25), "mm"),
+    heights = unit(50, "mm"),
+    guides = "collect"
+    )
+
+patchwork2 <-
+  p1 + p2 + p3 + p4 +
+  plot_layout(
+    ncol = 4,
+    widths = unit(c(50, 25, 50, 205), "mm"),
+    heights = unit(25, "mm"),
+    guides = "collect"
+  )
+
+patchwork3 <-
+  p1 + p2 + p3 + p4 +
+  plot_layout(
+    ncol = 4
+  )
+```
+
+```{r}
+# test bro_get_ggsize -----------------------------------------------------
+
+multipage:::get_ggsize(p1)
+multipage:::get_ggsize(list(p1, p2, p3))
+multipage:::get_ggsize(list(patchwork1, patchwork2, patchwork3))
+multipage:::get_ggsize(patchwork1)
+multipage:::get_ggsize(patchwork2)
+multipage:::get_ggsize(patchwork3)
+
+```
+
+```{r}
+# test get_ggsize --------------------------------------------------
+
+# get_ggsize(p1, "test.pdf")
+# get_ggsize(list(p1, p2, p3), "test.pdf")
+# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.pdf")
+# get_ggsize(patchwork1, "test.pdf")
+# get_ggsize(patchwork2, "test.pdf")
+# get_ggsize(patchwork3, "test.pdf")
+# 
+# get_ggsize(list(p1, p2, p3), "test.pdf")
+# get_ggsize(list(p1, p2, p3), "test.png")
+# get_ggsize(list(p1, p2, p3), "test.png", burst_to_multiple_files = TRUE)
+# 
+# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.pdf")
+# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.png")
+# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.png", burst_to_multiple_files = TRUE)
+
+```
+
+```{r}
+# test multipage_plots -----------------------------------------------
+
+plots <- list(p1, p2, p3, p4, p4, p3, p2, p1)
+
+plots %>% multipage_plots()
+plots %>% multipage_plots(width = unit(20, "mm"), height = unit(20, "mm"))
+
+plots %>% multipage_plots(ncol = 2, nrow = 2)
+plots %>% multipage_plots(ncol = 2, nrow = 2,
+                               width = unit(20, "mm"), height = unit(20, "mm"))
+
+# plots %>% layout_plots(ncol = 2, nrow = 2, width = unit(20, "mm"), height = unit(20, "mm")) %>%
+#   multipage_plots("test.pdf")
+# 
+# plots %>% layout_plots(ncol = 6, nrow = 6, width = unit(40, "mm"), height = unit(40, "mm")) %>%
+#   multipage_plots("test.pdf")
+# 
+# plots %>% layout_plots(ncol = 3, nrow = 3) %>%
+#   multipage_plots("test.pdf")
+# 
+# plots %>% layout_plots(ncol = 6, nrow = 6) %>%
+#   multipage_plots("test.pdf")
+
+
+```
+
+```{r}
+# test multipage_facets  -----------------------------------------------
+
+bro_data_exprs_sel <- 
+  bro_data_exprs %>% 
+  nest(data = -external_gene_name) %>% 
+  filter(row_number() %in% c(1:4,20:23)) %>% 
+  unnest(cols = c(data))
+
+p5 <- 
+  bro_data_exprs_sel %>% 
+  ggplot(aes(group, expression, color = sample_type)) +
+  geom_boxplot(width = 0.6, position = position_dodge(width = 0.8))
+
+p5
+
+p5 %>% multipage_facets(facet_var = external_gene_name)
+p5 %>% multipage_facets(facet_var = external_gene_name,
+                            width = unit(20, "mm"), height = unit(20, "mm"))
+
+p5 %>% multipage_facets(facet_var = external_gene_name, ncol = 2, nrow = 2)
+p5 %>% multipage_facets(facet_var = external_gene_name, ncol = 2, nrow = 2,
+                            width = unit(35, "mm"), height = unit(35, "mm"))
+
+# p1 %>% multipage_facets(facet_var = cyl, ncol = 1, nrow = 1, width = unit(20, "mm"), height = unit(20, "mm")) %>%
+#   save_multipage("test.pdf")
+# 
+# p1 %>% multipage_facets(facet_var = cyl, ncol = 2, nrow = 2, width = unit(40, "mm")) %>%
+#   save_multipage("test.pdf", height = 200)
+# 
+# p1 %>% multipage_facets(facet_var = cyl, ncol = 2, nrow = 2, width = unit(40, "mm")) %>%
+#   save_multipage("test.pdf")
+# 
+# p1 %>% multipage_facets(facet_var = cyl, ncol = 2, nrow = 2, width = unit(20, "mm"), height = unit(20, "mm")) %>%
+#   save_multipage("test.png")
+# 
+# p1 %>% multipage_facets(facet_var = cyl, ncol = 2, nrow = 2) %>%
+#   save_multipage("test.png")
+
+```

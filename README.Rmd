@@ -1,0 +1,45 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# multipage
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of multipage is to ...
+
+## Installation
+
+You can install `multipage` from GitHub with:
+
+```{r eval=FALSE}
+# install.packages("devtools")
+
+devtools::install_github("jbengler/multipage")
+```
+
+## Example
+
+```{r eval=FALSE}
+library(multipage)
+
+# bla
+```
+
+## Documentation
+
+https://jbengler.github.io/multipage/
+
+
