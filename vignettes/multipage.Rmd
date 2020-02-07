@@ -102,11 +102,9 @@ multipage:::get_ggsize(patchwork3)
 plots <- list(p1, p2, p3, p4, p4, p3, p2, p1)
 
 plots %>% layout_plots()
-plots %>% layout_plots(width = unit(20, "mm"), height = unit(20, "mm"))
-
 plots %>% layout_plots(ncol = 2, nrow = 2)
 plots %>% layout_plots(ncol = 2, nrow = 2,
-                               width = unit(20, "mm"), height = unit(20, "mm"))
+  width = unit(20, "mm"), height = unit(20, "mm"))
 
 # plots %>% layout_plots(ncol = 2, nrow = 2, width = unit(20, "mm"), height = unit(20, "mm")) %>%
 #   save_layout("test.pdf")
@@ -140,12 +138,9 @@ p5 <-
 p5
 
 p5 %>% layout_facets(facet_var = external_gene_name)
-p5 %>% layout_facets(facet_var = external_gene_name,
-                            width = unit(20, "mm"), height = unit(20, "mm"))
-
 p5 %>% layout_facets(facet_var = external_gene_name, ncol = 2, nrow = 2)
 p5 %>% layout_facets(facet_var = external_gene_name, ncol = 2, nrow = 2,
-                            width = unit(35, "mm"), height = unit(35, "mm"))
+  width = unit(35, "mm"), height = unit(35, "mm"))
 
 # p1 %>% layout_facets(facet_var = cyl, ncol = 1, nrow = 1, width = unit(20, "mm"), height = unit(20, "mm")) %>%
 #   save_layout("test.pdf")
