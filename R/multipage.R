@@ -50,7 +50,7 @@ get_ggsize <- function(gg, units = c("mm", "cm", "in")) {
 #' @param ... Other arguments passed on to `patchwork::wrap_plots()`
 #'
 #' @export
-multipage_plots <- function(gg, ncol = NULL, nrow = NULL, width = NULL, height = NULL, ...) {
+layout_plots <- function(gg, ncol = NULL, nrow = NULL, width = NULL, height = NULL, ...) {
   if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
 
   if (is.numeric(ncol) & is.numeric(nrow)) {
@@ -75,7 +75,7 @@ multipage_plots <- function(gg, ncol = NULL, nrow = NULL, width = NULL, height =
 #' @param ... Descr.
 #'
 #' @export
-multipage_facets <- function(gg, facet_var, ncol = NULL, nrow = NULL, width = NULL, height = NULL, ...) {
+layout_facets <- function(gg, facet_var, ncol = NULL, nrow = NULL, width = NULL, height = NULL, ...) {
   df <-
     gg$data %>%
     nest(data = -{{facet_var}}) %>%
@@ -85,7 +85,7 @@ multipage_facets <- function(gg, facet_var, ncol = NULL, nrow = NULL, width = NU
          function(data, facet_title) {
            gg %+% data + ggtitle(facet_title)
          })
-  multipage_plots(plots, ncol = ncol, nrow = nrow, width = width, height = height, ...)
+  layout_plots(plots, ncol = ncol, nrow = nrow, width = width, height = height, ...)
 }
 
 #' Save multipage layout to file
@@ -110,7 +110,7 @@ multipage_facets <- function(gg, facet_var, ncol = NULL, nrow = NULL, width = NU
 #' @param return_input If `TRUE` the input ggplot or plotlist is returned after saving.
 #' This enables the use of `bro_ggsave_paged()` within `dplyr` pipes.
 #' @export
-save_multipage <- function(gg = last_plot(), filename, device = NULL, path = NULL, scale = 1,
+save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, scale = 1,
                            width = NA, height = NA, units = "mm", dpi = 300, limitsize = TRUE,
                            return_input = FALSE, burst_to_multiple_files = FALSE, ...) {
   if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
