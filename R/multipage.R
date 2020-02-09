@@ -4,13 +4,12 @@ burst_filename <- function(filename, n) {
   paste0(tools::file_path_sans_ext(filename), "_", sprintf(paste0("%0",digits,"d"), 1:n), ".", tools::file_ext(filename))
 }
 
-# Determine maximum plot dimensions
-# Returns a named vector with the maximum overall width and height found in the input.
+
 # Known limitations:
 # 1. Plots that have been sized by egg::setpanel_size() loose their gtable information
 # 2. patchwork::plot_annotation() titles are not counting towards the dimensions
 
-get_ggsize <- function(gg, units = c("mm", "cm", "in")) {
+get_layout_size <- function(gg, units = c("mm", "cm", "in")) {
   if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
 
   pages <-
@@ -36,8 +35,10 @@ get_ggsize <- function(gg, units = c("mm", "cm", "in")) {
   if (all(!is.na(pages$height)))
     overall_height <- max(pages$height, na.rm = TRUE)
 
-  c(width = overall_width,
-    height = overall_height)
+  list(
+    pages = pages,
+    max = c(width = overall_width, height = overall_height)
+    )
 }
 
 #' Create multipage layout from plots
@@ -114,7 +115,7 @@ save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, 
                            width = NA, height = NA, units = "mm", dpi = 300, limitsize = TRUE,
                            return_input = FALSE, multiple_files = FALSE, ...) {
   if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
-  dimensions <- get_ggsize(gg, units)
+  dimensions <- get_layout_size(gg, units)$max
 
   width_defined_by <- case_when(is.na(width) && is.na(dimensions[["width"]]) ~ "was not defined - default device used",
                                 !is.na(width) ~ "was provided as parameter 'width' to bro_ggsave_paged()",

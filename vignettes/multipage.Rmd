@@ -65,34 +65,34 @@ patchwork3 <-
 ```
 
 ```{r}
-# test bro_get_ggsize -----------------------------------------------------
+# test bro_get_layout_size -----------------------------------------------------
 
-multipage:::get_ggsize(p1)
-multipage:::get_ggsize(list(p1, p2, p3))
-multipage:::get_ggsize(list(patchwork1, patchwork2, patchwork3))
-multipage:::get_ggsize(patchwork1)
-multipage:::get_ggsize(patchwork2)
-multipage:::get_ggsize(patchwork3)
+multipage:::get_layout_size(p1)
+multipage:::get_layout_size(list(p1, p2, p3))
+multipage:::get_layout_size(list(patchwork1, patchwork2, patchwork3))
+multipage:::get_layout_size(patchwork1)
+multipage:::get_layout_size(patchwork2)
+multipage:::get_layout_size(patchwork3)
 
 ```
 
 ```{r}
-# test get_ggsize --------------------------------------------------
+# test get_layout_size --------------------------------------------------
 
-# get_ggsize(p1, "test.pdf")
-# get_ggsize(list(p1, p2, p3), "test.pdf")
-# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.pdf")
-# get_ggsize(patchwork1, "test.pdf")
-# get_ggsize(patchwork2, "test.pdf")
-# get_ggsize(patchwork3, "test.pdf")
+# get_layout_size(p1, "test.pdf")
+# get_layout_size(list(p1, p2, p3), "test.pdf")
+# get_layout_size(list(patchwork1, patchwork2, patchwork3), "test.pdf")
+# get_layout_size(patchwork1, "test.pdf")
+# get_layout_size(patchwork2, "test.pdf")
+# get_layout_size(patchwork3, "test.pdf")
 # 
-# get_ggsize(list(p1, p2, p3), "test.pdf")
-# get_ggsize(list(p1, p2, p3), "test.png")
-# get_ggsize(list(p1, p2, p3), "test.png", burst_to_multiple_files = TRUE)
+# get_layout_size(list(p1, p2, p3), "test.pdf")
+# get_layout_size(list(p1, p2, p3), "test.png")
+# get_layout_size(list(p1, p2, p3), "test.png", burst_to_multiple_files = TRUE)
 # 
-# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.pdf")
-# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.png")
-# get_ggsize(list(patchwork1, patchwork2, patchwork3), "test.png", burst_to_multiple_files = TRUE)
+# get_layout_size(list(patchwork1, patchwork2, patchwork3), "test.pdf")
+# get_layout_size(list(patchwork1, patchwork2, patchwork3), "test.png")
+# get_layout_size(list(patchwork1, patchwork2, patchwork3), "test.png", burst_to_multiple_files = TRUE)
 
 ```
 
