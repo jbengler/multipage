@@ -6,8 +6,8 @@
 \usage{
 save_layout(gg = last_plot(), filename, device = NULL, path = NULL,
   scale = 1, width = NA, height = NA, units = "mm", dpi = 300,
-  limitsize = TRUE, return_input = FALSE,
-  burst_to_multiple_files = FALSE, ...)
+  limitsize = TRUE, return_input = FALSE, multiple_files = FALSE,
+  ...)
 }
 \arguments{
 \item{gg}{ggplot or list of ggplots}
