@@ -112,7 +112,7 @@ layout_facets <- function(gg, facet_var, ncol = NULL, nrow = NULL, width = NULL,
 #' @export
 save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, scale = 1,
                            width = NA, height = NA, units = "mm", dpi = 300, limitsize = TRUE,
-                           return_input = FALSE, burst_to_multiple_files = FALSE, ...) {
+                           return_input = FALSE, multiple_files = FALSE, ...) {
   if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
   dimensions <- get_ggsize(gg, units)
 
@@ -130,7 +130,7 @@ save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, 
   message("Device height ", height_defined_by)
   if (!is.na(width) && !is.na(height)) message("Saving ", round(width), " x ", round(height), " mm image")
 
-  if (burst_to_multiple_files) {
+  if (multiple_files) {
     filenames <- burst_filename(filename, length(gg))
     if (toupper(tools::file_ext(filename)) == "PDF") {
       map2(gg, filenames,
