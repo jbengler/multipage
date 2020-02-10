@@ -36,6 +36,7 @@ get_layout_size <- function(gg, units = c("mm", "cm", "in")) {
     overall_height <- max(pages$height, na.rm = TRUE)
 
   list(
+    units = units,
     pages = pages,
     max = c(width = overall_width, height = overall_height)
     )
