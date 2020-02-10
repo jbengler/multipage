@@ -5,9 +5,9 @@
 \title{Save multipage layout to file}
 \usage{
 save_layout(gg = last_plot(), filename, device = NULL, path = NULL,
-  scale = 1, width = NA, height = NA, units = "mm", dpi = 300,
-  limitsize = TRUE, return_input = FALSE, multiple_files = FALSE,
-  ...)
+  scale = 1, width = NA, height = NA, units = c("mm", "cm", "in"),
+  dpi = 300, limitsize = TRUE, return_input = FALSE,
+  multiple_files = FALSE, ...)
 }
 \arguments{
 \item{gg}{ggplot or list of ggplots}

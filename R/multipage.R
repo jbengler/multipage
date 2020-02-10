@@ -11,6 +11,7 @@ burst_filename <- function(filename, n) {
 
 get_layout_size <- function(gg, units = c("mm", "cm", "in")) {
   if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
+  units <- match.arg(units)
 
   pages <-
     map(gg, function(x) {
@@ -113,23 +114,26 @@ layout_facets <- function(gg, facet_var, ncol = NULL, nrow = NULL, width = NULL,
 #' This enables the use of `bro_ggsave_paged()` within `dplyr` pipes.
 #' @export
 save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, scale = 1,
-                           width = NA, height = NA, units = "mm", dpi = 300, limitsize = TRUE,
+                           width = NA, height = NA, units = c("mm", "cm", "in"), dpi = 300, limitsize = TRUE,
                            return_input = FALSE, multiple_files = FALSE, ...) {
   if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
+  units <- match.arg(units)
+
   dimensions <- get_layout_size(gg, units)$max
 
-  width_defined_by <- case_when(is.na(width) && is.na(dimensions[["width"]]) ~ "was not defined - default device used",
+  width_defined_by <- case_when(is.na(width) && is.na(dimensions[["width"]]) ~ "was not defined - system default used",
                                 !is.na(width) ~ "was provided as parameter 'width' to bro_ggsave_paged()",
-                                TRUE ~ "was inferred from plot width")
-  height_defined_by <- case_when(is.na(height) && is.na(dimensions[["height"]]) ~ "was not defined - default device used",
+                                TRUE ~ "was inferred from layout width")
+  height_defined_by <- case_when(is.na(height) && is.na(dimensions[["height"]]) ~ "was not defined - system default used",
                                  !is.na(height) ~ "was provided as parameter 'height' to bro_ggsave_paged()",
-                                 TRUE ~ "was inferred from plot height")
+                                 TRUE ~ "was inferred from layout height")
 
   if (is.na(width)) width <- dimensions[["width"]]
   if (is.na(height)) height <- dimensions[["height"]]
 
   message("Device width ", width_defined_by)
   message("Device height ", height_defined_by)
+  message("------------------------------------------------------")
   if (!is.na(width) && !is.na(height)) message("Saving ", round(width), " x ", round(height), " mm image")
 
   if (multiple_files) {
@@ -152,7 +156,7 @@ save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, 
 
   } else {
 
-    # the rest of the code is adapted from ggplot2::ggsave()
+    # this code is adapted from ggplot2::ggsave()
     dpi <- ggplot2:::parse_dpi(dpi)
     dev <- ggplot2:::plot_dev(device, filename, dpi = dpi)
     dim <- ggplot2:::plot_dim(c(width, height), scale = scale, units = units, limitsize = limitsize)
