@@ -62,13 +62,13 @@ patchwork3 <-
   plot_layout(
     ncol = 4
   )
+
+plots <- list(p1, p2, p3, p4, p4, p3, p2, p1)
 ```
 
 ## Layout plots
 
 ```{r}
-plots <- list(p1, p2, p3, p4, p4, p3, p2, p1)
-
 plots %>% layout_plots()
 plots %>% layout_plots(ncol = 2, nrow = 2)
 plots %>% layout_plots(ncol = 2, nrow = 2,

@@ -122,10 +122,10 @@ save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, 
   dimensions <- get_layout_size(gg, units)$max
 
   width_defined_by <- case_when(is.na(width) && is.na(dimensions[["width"]]) ~ "was not defined - system default used",
-                                !is.na(width) ~ "was provided as parameter 'width' to bro_ggsave_paged()",
+                                !is.na(width) ~ "was provided as parameter 'width' to save_layout()",
                                 TRUE ~ "was inferred from layout width")
   height_defined_by <- case_when(is.na(height) && is.na(dimensions[["height"]]) ~ "was not defined - system default used",
-                                 !is.na(height) ~ "was provided as parameter 'height' to bro_ggsave_paged()",
+                                 !is.na(height) ~ "was provided as parameter 'height' to save_layout()",
                                  TRUE ~ "was inferred from layout height")
 
   if (is.na(width)) width <- dimensions[["width"]]
