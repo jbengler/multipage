@@ -1,4 +1,8 @@
+.Rproj
 .Rproj.user
-inst/doc
+.DS_Store
 .Rhistory
 .RData
+inst/doc
+test.pdf
+test.png
