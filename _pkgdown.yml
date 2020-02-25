@@ -4,9 +4,9 @@ reference:
 - title: "Create layouts"
   desc: Generate layouts of plots or facets and arrange them over multiple pages.
   contents:
-    - layout_plots
-    - layout_facets
+    - multipage_plots
+    - multipage_facets
 - title: "Save layout to file"
   desc: Write multipage layouts to a multipage file or burst them to multiple files.
   contents:
-    - save_layout
+    - save_multipage

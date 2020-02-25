@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create multipage layout from facets — multipage_facets • multipage</title>
+<title>multipage_facets — multipage_facets • multipage</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Create multipage layout from facets — multipage_facets" />
-<meta property="og:description" content="Create multipage layout from facets" />
+<meta property="og:title" content="multipage_facets — multipage_facets" />
+<meta property="og:description" content="multipage_facets" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,48 +108,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create multipage layout from facets</h1>
+    <h1>multipage_facets</h1>
     <small class="dont-index">Source: <a href='https://github.com/jbengler/multipage/blob/master/R/multipage.R'><code>R/multipage.R</code></a></small>
     <div class="hidden name"><code>multipage_facets.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create multipage layout from facets</p>
+    <p>multipage_facets</p>
     </div>
 
-    <pre class="usage"><span class='fu'>multipage_facets</span>(<span class='no'>gg</span>, <span class='no'>facet_var</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>multipage_facets</span>(<span class='no'>gg</span>, <span class='no'>facet_by</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>guides</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
+  <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>design</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gg</th>
-      <td><p>A ggplot</p></td>
+      <td><p>descr</p></td>
     </tr>
     <tr>
-      <th>facet_var</th>
-      <td><p>Descr.</p></td>
+      <th>facet_by</th>
+      <td><p>descr</p></td>
     </tr>
     <tr>
       <th>ncol</th>
-      <td><p>Descr.</p></td>
+      <td><p>descr</p></td>
     </tr>
     <tr>
       <th>nrow</th>
-      <td><p>Descr.</p></td>
+      <td><p>descr</p></td>
     </tr>
     <tr>
-      <th>width</th>
-      <td><p>Descr.</p></td>
+      <th>byrow</th>
+      <td><p>Analogous to <code>byrow</code> in <a href='https://rdrr.io/r/base/matrix.html'>matrix()</a>. If <code>FALSE</code> the
+plots will be filled in in column-major order</p></td>
     </tr>
     <tr>
-      <th>height</th>
-      <td><p>Descr.</p></td>
+      <th>widths</th>
+      <td><p>The relative widths and heights of each column and row
+in the grid. Will get repeated to match the dimensions of the grid.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Descr.</p></td>
+      <th>heights</th>
+      <td><p>The relative widths and heights of each column and row
+in the grid. Will get repeated to match the dimensions of the grid.</p></td>
+    </tr>
+    <tr>
+      <th>guides</th>
+      <td><p>A string specifying how guides should be treated in the layout.
+<code>'collect'</code> will collect guides below to the given nesting level, removing
+duplicates. <code>'keep'</code> will stop collection at this level and let guides be
+placed alongside their plot. <code>auto</code> will allow guides to be collected if a
+upper level tries, but place them alongside the plot if not.</p></td>
+    </tr>
+    <tr>
+      <th>tag_level</th>
+      <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate how
+auto-tagging should behave. See <code>plot_annotation()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>design</th>
+      <td><p>Specification of the location of areas in the layout. Can either
+be specified as a text string or by concatenating calls to <code>area()</code> together.
+See the examples for further information on use.</p></td>
     </tr>
     </table>
 

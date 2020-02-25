@@ -10,7 +10,7 @@ burst_filename <- function(filename, n) {
 # 2. patchwork::plot_annotation() titles are not counting towards the dimensions
 
 get_layout_size <- function(gg, units = c("mm", "cm", "in")) {
-  if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
+  if (is.ggplot(gg)) gg <- list(gg)
   units <- match.arg(units)
 
   pages <-
@@ -43,18 +43,26 @@ get_layout_size <- function(gg, units = c("mm", "cm", "in")) {
     )
 }
 
-#' Create multipage layout from plots
+#' multipage_plots
+#' @param gg descr
 #'
-#' @param gg ggplot or list of ggplots
-#' @param ncol Number of columns in the layout. If more plots are provided than fit on one page, a list of patchworks is returned.
-#' @param nrow Number of rows in the layout. If more plots are provided than fit on one page, a list of patchworks is returned.
-#' @param width Widths of individual plots. For absolute dimensions use somehting like `unit(40, "mm")`.
-#' @param height Heights of individual plots. For absolute dimensions use somehting like `unit(40, "mm")`.
-#' @param ... Other arguments passed on to `patchwork::wrap_plots()`
+#' @param ncol descr
+#' @param nrow descr
+#' @inheritParams patchwork::wrap_plots
 #'
 #' @export
-layout_plots <- function(gg, ncol = NULL, nrow = NULL, width = NULL, height = NULL, ...) {
-  if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
+multipage_plots <- function(gg,
+                            ncol = NULL,
+                            nrow = NULL,
+                            byrow = NULL,
+                            widths = NULL,
+                            heights = NULL,
+                            guides = "collect",
+                            tag_level = NULL,
+                            design = NULL) {
+  if (!is.ggplot(gg) && !all(purrr::map_lgl(gg, is.ggplot)))
+    stop("argument 'gg' should be ggplot or list off ggplots")
+  if (is.ggplot(gg)) gg <- list(gg)
 
   if (is.numeric(ncol) & is.numeric(nrow)) {
     plots_per_page <- nrow * ncol
@@ -63,60 +71,69 @@ layout_plots <- function(gg, ncol = NULL, nrow = NULL, width = NULL, height = NU
   }
   pages <-
     split(gg, ceiling(seq_along(gg)/plots_per_page)) %>%
-    map(., ~patchwork::wrap_plots(.x, ncol = ncol, nrow = nrow, widths = width, heights = height, guides = "collect", ...))
+    map(., ~patchwork::wrap_plots(.x, ncol = ncol, nrow = nrow, widths = widths, heights = heights, guides = guides, byrow = byrow, tag_level = tag_level, design = design))
   unname(pages)
 }
 
-#' Create multipage layout from facets
+#' multipage_facets
+#' @param gg descr
 #'
-#' @param gg A ggplot
-#' @param facet_var Descr.
-#' @param ncol Descr.
-#' @param nrow Descr.
-#' @param width Descr.
-#' @param height Descr.
-#' @param ... Descr.
+#' @param facet_by descr
+#' @param ncol descr
+#' @param nrow descr
+#' @inheritParams patchwork::wrap_plots
 #'
 #' @export
-layout_facets <- function(gg, facet_var, ncol = NULL, nrow = NULL, width = NULL, height = NULL, ...) {
+multipage_facets <- function(gg,
+                             facet_by,
+                             ncol = NULL,
+                             nrow = NULL,
+                             byrow = NULL,
+                             widths = NULL,
+                             heights = NULL,
+                             guides = "collect",
+                             tag_level = NULL,
+                             design = NULL) {
+  if (!is.ggplot(gg))
+    stop("argument 'gg' should be a single ggplot")
+  if(missing(facet_by))
+    stop("argument 'facet_by' missing without default")
+
   df <-
     gg$data %>%
-    nest(data = -{{facet_var}}) %>%
-    arrange({{facet_var}})
+    nest(data = -{{facet_by}}) %>%
+    arrange({{facet_by}})
   plots <-
-    map2(df$data, df %>% pull({{facet_var}}),
+    map2(df$data, df %>% pull({{facet_by}}),
          function(data, facet_title) {
            gg %+% data + ggtitle(facet_title)
          })
-  layout_plots(plots, ncol = ncol, nrow = nrow, width = width, height = height, ...)
+  multipage_plots(plots, ncol = ncol, nrow = nrow, widths = widths, heights = heights, guides = guides, byrow = byrow, tag_level = tag_level, design = design)
 }
 
 #' Save multipage layout to file
 #'
 #' This function takes a ggplot (for single page) or list of ggplots (for multi page) and writes them to file.
-#' In case the input has absolute dimensions (e.g. as a result of `egg::set_panel_size()` or
-#' `patchwork::plot_layout()`), width and height of the output are adjusted to fit the content.
+#' In case the input has absolute dimensions, width and height of the output device are adjusted to fit the content.
 #'
 #' @param gg ggplot or list of ggplots
 #'
-#' @param filename Filename for export
-#' @param device Device to use. Can either be a device function (e.g. `png()`), or one of "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).
-#' @param path Path to save plot to (combined with filename).
-#' @param scale Multiplicative scaling factor.
-#' @param width,height,units Plot size in `units` ("mm", "cm", or "in").
-#'   If not supplied, uses the size of current graphics device.
-#'   In case the input has absolute dimensions after applying
-#'   `patchwork::plot_layout()`, width and height of the output are adjusted to fit the content.
-#' @param dpi Plot resolution. Also accepts a string input: "retina" (320), "print" (300), or "screen" (72). Applies only to raster output types.
-#' @param limitsize When TRUE (the default), ggsave will not save images larger than 50x50 inches, to prevent the common error of specifying dimensions in pixels.
-#' @param ... Other arguments passed on to the graphics device function, as specified by device.
-#' @param return_input If `TRUE` the input ggplot or plotlist is returned after saving.
-#' This enables the use of `bro_ggsave_paged()` within `dplyr` pipes.
+#' @param width desr
+#' @param height desr
+#' @param units desr
+#' @param return_input Return the input ggplot or plotlist is after saving.
+#' This enables the use within `dplyr` pipes.
+#' @param multiple_files Save pages as individal files.
+#' @inheritParams ggplot2::ggsave
+#'
 #' @export
-save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, scale = 1,
+save_multipage <- function(gg = last_plot(), filename, device = NULL, path = NULL, scale = 1,
                            width = NA, height = NA, units = c("mm", "cm", "in"), dpi = 300, limitsize = TRUE,
                            return_input = FALSE, multiple_files = FALSE, ...) {
-  if (class(gg)[1] %in% c("patchwork", "gg", "ggplot")) gg <- list(gg)
+  if (!is.ggplot(gg) && !all(purrr::map_lgl(gg, is.ggplot)))
+    stop("argument 'gg' should be ggplot or list off ggplots")
+
+  if (is.ggplot(gg)) gg <- list(gg)
   units <- match.arg(units)
 
   dimensions <- get_layout_size(gg, units)$max
@@ -143,13 +160,13 @@ save_layout <- function(gg = last_plot(), filename, device = NULL, path = NULL, 
            function(x, y) {
              ggplot2::ggsave(plot = x, filename = y, device = device, path = path, scale = scale,
                              width = width, height = height, units = units, dpi = dpi, limitsize = limitsize,
-                             useDingbats = FALSE)
+                             useDingbats = FALSE, ...)
            })
     } else {
       map2(gg, filenames,
            function(x, y) {
              ggplot2::ggsave(plot = x, filename = y, device = device, path = path, scale = scale,
-                             width = width, height = height, units = units, dpi = dpi, limitsize = limitsize)
+                             width = width, height = height, units = units, dpi = dpi, limitsize = limitsize, ...)
            })
     }
     if(return_input) return(gg)

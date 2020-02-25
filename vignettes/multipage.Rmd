@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r message=FALSE, warning=FALSE}
 # devtools::install_github("thomasp85/patchwork")
+# devtools::install_github("jbengler/multipage")
 
 library(tidyverse)
 library(patchwork)
@@ -69,9 +70,10 @@ plots <- list(p1, p2, p3, p4, p4, p3, p2, p1)
 ## Layout plots
 
 ```{r}
-plots %>% layout_plots()
-plots %>% layout_plots(ncol = 2, nrow = 2)
-plots %>% layout_plots(ncol = 2, nrow = 2,
+p1 %>% multipage_plots()
+plots %>% multipage_plots()
+plots %>% multipage_plots(ncol = 2, nrow = 2)
+plots %>% multipage_plots(ncol = 2, nrow = 2,
   width = unit(20, "mm"), height = unit(20, "mm"))
 ```
 
@@ -92,9 +94,9 @@ p5 <-
 
 p5
 
-p5 %>% layout_facets(facet_var = external_gene_name)
-p5 %>% layout_facets(facet_var = external_gene_name, ncol = 2, nrow = 2)
-p5 %>% layout_facets(facet_var = external_gene_name, ncol = 2, nrow = 2,
+p5 %>% multipage_facets(facet_by = external_gene_name)
+p5 %>% multipage_facets(facet_by = external_gene_name, ncol = 2, nrow = 2)
+p5 %>% multipage_facets(facet_by = external_gene_name, ncol = 2, nrow = 2,
   width = unit(35, "mm"), height = unit(35, "mm"))
 ```
 
@@ -102,55 +104,55 @@ p5 %>% layout_facets(facet_var = external_gene_name, ncol = 2, nrow = 2,
 
 ```{r eval=FALSE}
 plots %>%
-  layout_plots(ncol = 2, nrow = 2, width = unit(20, "mm"), height = unit(20, "mm")) %>%
-  save_layout("test.pdf")
+  multipage_plots(ncol = 2, nrow = 2, width = unit(20, "mm"), height = unit(20, "mm")) %>%
+  save_multipage("test.pdf")
 
 plots %>%
-  layout_plots(ncol = 6, nrow = 6, width = unit(40, "mm"), height = unit(40, "mm")) %>%
-  save_layout("test.pdf")
+  multipage_plots(ncol = 6, nrow = 6, width = unit(40, "mm"), height = unit(40, "mm")) %>%
+  save_multipage("test.pdf")
 
 plots %>%
-  layout_plots(ncol = 3, nrow = 3) %>%
-  save_layout("test.pdf")
+  multipage_plots(ncol = 3, nrow = 3) %>%
+  save_multipage("test.pdf")
 
 plots %>%
-  layout_plots(ncol = 6, nrow = 6) %>%
-  save_layout("test.pdf")
+  multipage_plots(ncol = 6, nrow = 6) %>%
+  save_multipage("test.pdf")
 
 p1 %>%
-  layout_facets(facet_var = cyl, ncol = 1, nrow = 1, width = unit(20, "mm"), height = unit(20, "mm")) %>%
-  save_layout("test.pdf")
+  multipage_facets(facet_by = cyl, ncol = 1, nrow = 1, width = unit(20, "mm"), height = unit(20, "mm")) %>%
+  save_multipage("test.pdf")
 
 p1 %>%
-  layout_facets(facet_var = cyl, ncol = 2, nrow = 2, width = unit(40, "mm")) %>%
-  save_layout("test.pdf", height = 200)
+  multipage_facets(facet_by = cyl, ncol = 2, nrow = 2, width = unit(40, "mm")) %>%
+  save_multipage("test.pdf", height = 200)
 
 p1 %>%
-  layout_facets(facet_var = cyl, ncol = 2, nrow = 2, width = unit(40, "mm")) %>%
-  save_layout("test.pdf")
+  multipage_facets(facet_by = cyl, ncol = 2, nrow = 2, width = unit(40, "mm")) %>%
+  save_multipage("test.pdf")
 
 p1 %>%
-  layout_facets(facet_var = cyl, ncol = 2, nrow = 2, width = unit(20, "mm"), height = unit(20, "mm")) %>%
-  save_layout("test.png")
+  multipage_facets(facet_by = cyl, ncol = 2, nrow = 2, width = unit(20, "mm"), height = unit(20, "mm")) %>%
+  save_multipage("test.png")
 
 p1 %>%
-  layout_facets(facet_var = cyl, ncol = 2, nrow = 2) %>%
-  save_layout("test.png")
+  multipage_facets(facet_by = cyl, ncol = 2, nrow = 2) %>%
+  save_multipage("test.png")
 
-save_layout(p1, "test.pdf")
-save_layout(list(p1, p2, p3), "test.pdf")
-save_layout(list(patchwork1, patchwork2, patchwork3), "test.pdf")
-save_layout(patchwork1, "test.pdf")
-save_layout(patchwork2, "test.pdf")
-save_layout(patchwork3, "test.pdf")
+save_multipage(p1, "test.pdf")
+save_multipage(list(p1, p2, p3), "test.pdf")
+save_multipage(list(patchwork1, patchwork2, patchwork3), "test.pdf")
+save_multipage(patchwork1, "test.pdf")
+save_multipage(patchwork2, "test.pdf")
+save_multipage(patchwork3, "test.pdf")
 
-save_layout(list(p1, p2, p3), "test.pdf")
-save_layout(list(p1, p2, p3), "test.png")
-save_layout(list(p1, p2, p3), "test.png", burst_to_multiple_files = TRUE)
+save_multipage(list(p1, p2, p3), "test.pdf")
+save_multipage(list(p1, p2, p3), "test.png")
+save_multipage(list(p1, p2, p3), "test.png", burst_to_multiple_files = TRUE)
 
-save_layout(list(patchwork1, patchwork2, patchwork3), "test.pdf")
-save_layout(list(patchwork1, patchwork2, patchwork3), "test.png")
-save_layout(list(patchwork1, patchwork2, patchwork3), "test.png", multiple_files = TRUE)
+save_multipage(list(patchwork1, patchwork2, patchwork3), "test.pdf")
+save_multipage(list(patchwork1, patchwork2, patchwork3), "test.png")
+save_multipage(list(patchwork1, patchwork2, patchwork3), "test.png", multiple_files = TRUE)
 
 ```
 

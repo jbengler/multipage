@@ -37,8 +37,7 @@
 
 <meta property="og:title" content="Save multipage layout to file — save_multipage" />
 <meta property="og:description" content="This function takes a ggplot (for single page) or list of ggplots (for multi page) and writes them to file.
-In case the input has absolute dimensions (e.g. as a result of egg::set_panel_size() or
-patchwork::plot_layout()), width and height of the output are adjusted to fit the content." />
+In case the input has absolute dimensions, width and height of the output device are adjusted to fit the content." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,14 +116,13 @@ patchwork::plot_layout()), width and height of the output are adjusted to fit th
 
     <div class="ref-description">
     <p>This function takes a ggplot (for single page) or list of ggplots (for multi page) and writes them to file.
-In case the input has absolute dimensions (e.g. as a result of <code><a href='https://rdrr.io/pkg/egg/man/set_panel_size.html'>egg::set_panel_size()</a></code> or
-<code><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>patchwork::plot_layout()</a></code>), width and height of the output are adjusted to fit the content.</p>
+In case the input has absolute dimensions, width and height of the output device are adjusted to fit the content.</p>
     </div>
 
     <pre class="usage"><span class='fu'>save_multipage</span>(<span class='kw'>gg</span> <span class='kw'>=</span> <span class='fu'>last_plot</span>(), <span class='no'>filename</span>, <span class='kw'>device</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"mm"</span>,
-  <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>limitsize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>burst_to_multiple_files</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>units</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mm"</span>, <span class='st'>"cm"</span>, <span class='st'>"in"</span>), <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>limitsize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>multiple_files</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,11 +133,13 @@ In case the input has absolute dimensions (e.g. as a result of <code><a href='ht
     </tr>
     <tr>
       <th>filename</th>
-      <td><p>Filename for export</p></td>
+      <td><p>File name to create on disk.</p></td>
     </tr>
     <tr>
       <th>device</th>
-      <td><p>Device to use. Can either be a device function (e.g. <code><a href='https://rdrr.io/r/grDevices/png.html'>png()</a></code>), or one of "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).</p></td>
+      <td><p>Device to use. Can either be a device function
+(e.g. <code><a href='https://rdrr.io/r/grDevices/png.html'>png()</a></code>), or one of "eps", "ps", "tex" (pictex),
+"pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -150,28 +150,41 @@ In case the input has absolute dimensions (e.g. as a result of <code><a href='ht
       <td><p>Multiplicative scaling factor.</p></td>
     </tr>
     <tr>
-      <th>width, height, units</th>
-      <td><p>Plot size in <code>units</code> ("mm", "cm", or "in").
-If not supplied, uses the size of current graphics device.
-In case the input has absolute dimensions after applying
-<code><a href='https://patchwork.data-imaginist.com/reference/plot_layout.html'>patchwork::plot_layout()</a></code>, width and height of the output are adjusted to fit the content.</p></td>
+      <th>width</th>
+      <td><p>desr</p></td>
+    </tr>
+    <tr>
+      <th>height</th>
+      <td><p>desr</p></td>
+    </tr>
+    <tr>
+      <th>units</th>
+      <td><p>desr</p></td>
     </tr>
     <tr>
       <th>dpi</th>
-      <td><p>Plot resolution. Also accepts a string input: "retina" (320), "print" (300), or "screen" (72). Applies only to raster output types.</p></td>
+      <td><p>Plot resolution. Also accepts a string input: "retina" (320),
+"print" (300), or "screen" (72). Applies only to raster output types.</p></td>
     </tr>
     <tr>
       <th>limitsize</th>
-      <td><p>When TRUE (the default), ggsave will not save images larger than 50x50 inches, to prevent the common error of specifying dimensions in pixels.</p></td>
+      <td><p>When <code>TRUE</code> (the default), <code>ggsave</code> will not
+save images larger than 50x50 inches, to prevent the common error of
+specifying dimensions in pixels.</p></td>
     </tr>
     <tr>
       <th>return_input</th>
-      <td><p>If <code>TRUE</code> the input ggplot or plotlist is returned after saving.
-This enables the use of <code>bro_ggsave_paged()</code> within <code>dplyr</code> pipes.</p></td>
+      <td><p>Return the input ggplot or plotlist is after saving.
+This enables the use within <code>dplyr</code> pipes.</p></td>
+    </tr>
+    <tr>
+      <th>multiple_files</th>
+      <td><p>Save pages as individal files.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Other arguments passed on to the graphics device function, as specified by device.</p></td>
+      <td><p>Other arguments passed on to the graphics device function,
+as specified by <code>device</code>.</p></td>
     </tr>
     </table>
 
