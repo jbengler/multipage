@@ -5,6 +5,12 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.org/jbengler/multipage.svg?branch=master)](https://travis-ci.org/jbengler/multipage)
+[![Codecov test
+coverage](https://codecov.io/gh/jbengler/multipage/branch/master/graph/badge.svg)](https://codecov.io/gh/jbengler/multipage?branch=master)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 The goal of multipage is to …
