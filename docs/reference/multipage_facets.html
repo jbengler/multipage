@@ -117,28 +117,33 @@
     <p>multipage_facets</p>
     </div>
 
-    <pre class="usage"><span class='fu'>multipage_facets</span>(<span class='no'>gg</span>, <span class='no'>facet_by</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>guides</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
-  <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>design</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>multipage_facets</span>(
+  <span class='no'>gg</span>,
+  <span class='no'>facet_by</span>,
+  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>guides</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
+  <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>design</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gg</th>
-      <td><p>descr</p></td>
+      <td><p>A <code>ggplot</code></p></td>
     </tr>
     <tr>
       <th>facet_by</th>
-      <td><p>descr</p></td>
+      <td><p>Variable that should be used for faceting.</p></td>
     </tr>
     <tr>
-      <th>ncol</th>
-      <td><p>descr</p></td>
-    </tr>
-    <tr>
-      <th>nrow</th>
-      <td><p>descr</p></td>
+      <th>ncol, nrow</th>
+      <td><p>The number of columns and rows per page.</p></td>
     </tr>
     <tr>
       <th>byrow</th>
@@ -166,12 +171,12 @@ upper level tries, but place them alongside the plot if not.</p></td>
     <tr>
       <th>tag_level</th>
       <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate how
-auto-tagging should behave. See <code>plot_annotation()</code>.</p></td>
+auto-tagging should behave. See <code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation()</a></code>.</p></td>
     </tr>
     <tr>
       <th>design</th>
       <td><p>Specification of the location of areas in the layout. Can either
-be specified as a text string or by concatenating calls to <code>area()</code> together.
+be specified as a text string or by concatenating calls to <code><a href='https://patchwork.data-imaginist.com/reference/area.html'>area()</a></code> together.
 See the examples for further information on use.</p></td>
     </tr>
     </table>

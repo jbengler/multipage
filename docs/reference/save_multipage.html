@@ -36,8 +36,7 @@
 
 
 <meta property="og:title" content="Save multipage layout to file — save_multipage" />
-<meta property="og:description" content="This function takes a ggplot (for single page) or list of ggplots (for multi page) and writes them to file.
-In case the input has absolute dimensions, width and height of the output device are adjusted to fit the content." />
+<meta property="og:description" content="This function takes a ggplot or list of ggplots and writes them to a (multipage) file. See below for details." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,21 +114,31 @@ In case the input has absolute dimensions, width and height of the output device
     </div>
 
     <div class="ref-description">
-    <p>This function takes a ggplot (for single page) or list of ggplots (for multi page) and writes them to file.
-In case the input has absolute dimensions, width and height of the output device are adjusted to fit the content.</p>
+    <p>This function takes a <code>ggplot</code> or list of <code>ggplot</code>s and writes them to a (multipage) file. See below for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>save_multipage</span>(<span class='kw'>gg</span> <span class='kw'>=</span> <span class='fu'>last_plot</span>(), <span class='no'>filename</span>, <span class='kw'>device</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>units</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mm"</span>, <span class='st'>"cm"</span>, <span class='st'>"in"</span>), <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>limitsize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>multiple_files</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>save_multipage</span>(
+  <span class='kw'>gg</span> <span class='kw'>=</span> <span class='fu'>last_plot</span>(),
+  <span class='no'>filename</span>,
+  <span class='kw'>device</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>units</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mm"</span>, <span class='st'>"cm"</span>, <span class='st'>"in"</span>),
+  <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>,
+  <span class='kw'>limitsize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>multiple_files</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gg</th>
-      <td><p>ggplot or list of ggplots</p></td>
+      <td><p>A <code>ggplot</code> or list of <code>ggplot</code>s</p></td>
     </tr>
     <tr>
       <th>filename</th>
@@ -150,16 +159,14 @@ In case the input has absolute dimensions, width and height of the output device
       <td><p>Multiplicative scaling factor.</p></td>
     </tr>
     <tr>
-      <th>width</th>
-      <td><p>desr</p></td>
-    </tr>
-    <tr>
-      <th>height</th>
-      <td><p>desr</p></td>
+      <th>width, height</th>
+      <td><p>Dimensions of the saved plot. If not specified, <code>save_multipage()</code> will
+try to infer the dimensions from the incoming <code>ggplot</code> object. If the incoming <code>ggplot</code> object has no absolute
+dimensions, system default device dimensions are used.</p></td>
     </tr>
     <tr>
       <th>units</th>
-      <td><p>desr</p></td>
+      <td><p>Unit dimensions. Defaults to "mm".</p></td>
     </tr>
     <tr>
       <th>dpi</th>
@@ -188,12 +195,26 @@ as specified by <code>device</code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><strong>Handling of multiple pages.</strong>
+For a list of <code>ggplot</code>s, each list element is rendered as a separate page into a mutipage <code>pdf</code> file.
+To save pages as individual files, use <code>multiple_files = TRUE</code>.
+For output formats that do not support multipage files (<code>png</code>, <code>jpg</code>, etc), pages are saved to individual files by default.</p>
+<p><strong>Handling of file dimensions.</strong>
+Output file dimensions are determined according the the following precedence.</p><ol>
+<li><p>The <code>width</code> and <code>height</code> parameters of <code>save_multipage()</code>.</p></li>
+<li><p>Dimensions inferred from an incoming <code>ggplot</code> object containing absolute dimensions.</p></li>
+<li><p>System default device dimensions.</p></li>
+</ol>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

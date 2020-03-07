@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>multipage_plots — multipage_plots • multipage</title>
+<title>Expression data from RNA-Seq study. — data_exprs • multipage</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="multipage_plots — multipage_plots" />
-<meta property="og:description" content="multipage_plots" />
+<meta property="og:title" content="Expression data from RNA-Seq study. — data_exprs" />
+<meta property="og:description" content="This data was taken form a RNA-Seq study investigating the regulation of genes
+in response to central nervous system inflammation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,80 +109,51 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>multipage_plots</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jbengler/multipage/blob/master/R/multipage.R'><code>R/multipage.R</code></a></small>
-    <div class="hidden name"><code>multipage_plots.Rd</code></div>
+    <h1>Expression data from RNA-Seq study.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jbengler/multipage/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>data_exprs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>multipage_plots</p>
+    <p>This data was taken form a RNA-Seq study investigating the regulation of genes
+in response to central nervous system inflammation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>multipage_plots</span>(
-  <span class='no'>gg</span>,
-  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>guides</span> <span class='kw'>=</span> <span class='st'>"collect"</span>,
-  <span class='kw'>tag_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>design</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='no'>data_exprs</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>gg</th>
-      <td><p>A <code>ggplot</code> or list of <code>ggplot</code>s</p></td>
-    </tr>
-    <tr>
-      <th>ncol, nrow</th>
-      <td><p>The number of columns and rows per page.</p></td>
-    </tr>
-    <tr>
-      <th>byrow</th>
-      <td><p>Analogous to <code>byrow</code> in <a href='https://rdrr.io/r/base/matrix.html'>matrix()</a>. If <code>FALSE</code> the
-plots will be filled in in column-major order</p></td>
-    </tr>
-    <tr>
-      <th>widths</th>
-      <td><p>The relative widths and heights of each column and row
-in the grid. Will get repeated to match the dimensions of the grid.</p></td>
-    </tr>
-    <tr>
-      <th>heights</th>
-      <td><p>The relative widths and heights of each column and row
-in the grid. Will get repeated to match the dimensions of the grid.</p></td>
-    </tr>
-    <tr>
-      <th>guides</th>
-      <td><p>A string specifying how guides should be treated in the layout.
-<code>'collect'</code> will collect guides below to the given nesting level, removing
-duplicates. <code>'keep'</code> will stop collection at this level and let guides be
-placed alongside their plot. <code>auto</code> will allow guides to be collected if a
-upper level tries, but place them alongside the plot if not.</p></td>
-    </tr>
-    <tr>
-      <th>tag_level</th>
-      <td><p>A string (<code>'keep'</code> or <code>'new'</code>) to indicate how
-auto-tagging should behave. See <code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>design</th>
-      <td><p>Specification of the location of areas in the layout. Can either
-be specified as a text string or by concatenating calls to <code><a href='https://patchwork.data-imaginist.com/reference/area.html'>area()</a></code> together.
-See the examples for further information on use.</p></td>
-    </tr>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 800 rows and 9 variables:</p><dl class='dl-horizontal'>
+<dt>ensembl_gene_id</dt><dd><p>Ensembl gene id</p></dd>
+<dt>external_gene_name</dt><dd><p>Gene symbol</p></dd>
+<dt>sample</dt><dd><p>Sample name</p></dd>
+<dt>expression</dt><dd><p>Normalized RNA-Seq expression value</p></dd>
+<dt>group</dt><dd><p>Experimental group</p></dd>
+<dt>sample_type</dt><dd><p>Sample type. Either <code>input</code> or <code>IP</code>.</p></dd>
+<dt>condition</dt><dd><p>Condition of sampling. Either <code>healthy</code> or <code>EAE</code>.</p></dd>
+<dt>is_immune_gene</dt><dd><p>Gene is annotated as immune cell gene. Either <code>yes</code> or <code>no</code>.</p></dd>
+<dt>direction</dt><dd><p>Direction of regulation. Either <code>up</code> or <code>down</code>.</p></dd>
+
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><code>data_exprs</code> represents just a small subset of the data aquired in the study.</p>
+<p>More details about the study can be found here</p><ul>
+<li><p>Nature Neuroscience, <a href='https://www.nature.com/articles/s41593-019-0385-4'>Bassoon proteinopathy drives neurodegeneration in multiple sclerosis</a></p></li>
+</ul>
+
+<p>The complete raw data can be downloaded here</p><ul>
+<li><p>Gene Expression Omnibus, study accession <a href='https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE104899'>GSE104899</a></p></li>
+</ul>
 
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
 
   </div>

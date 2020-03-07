@@ -10,3 +10,6 @@ reference:
   desc: Write multipage layouts to a multipage file or burst them to multiple files.
   contents:
     - save_multipage
+- title: "Data sets"
+  contents:
+    - data_exprs

@@ -4,16 +4,22 @@
 \alias{multipage_plots}
 \title{multipage_plots}
 \usage{
-multipage_plots(gg, ncol = NULL, nrow = NULL, byrow = NULL,
-  widths = NULL, heights = NULL, guides = "collect",
-  tag_level = NULL, design = NULL)
+multipage_plots(
+  gg,
+  ncol = NULL,
+  nrow = NULL,
+  byrow = NULL,
+  widths = NULL,
+  heights = NULL,
+  guides = "collect",
+  tag_level = NULL,
+  design = NULL
+)
 }
 \arguments{
-\item{gg}{descr}
+\item{gg}{A \code{ggplot} or list of \code{ggplot}s}
 
-\item{ncol}{descr}
-
-\item{nrow}{descr}
+\item{ncol, nrow}{The number of columns and rows per page.}
 
 \item{byrow}{Analogous to \code{byrow} in \link[base:matrix]{matrix()}. If \code{FALSE} the
 plots will be filled in in column-major order}
@@ -31,10 +37,10 @@ placed alongside their plot. \code{auto} will allow guides to be collected if a
 upper level tries, but place them alongside the plot if not.}
 
 \item{tag_level}{A string (\code{'keep'} or \code{'new'}) to indicate how
-auto-tagging should behave. See \code{\link[=plot_annotation]{plot_annotation()}}.}
+auto-tagging should behave. See \code{\link[patchwork:plot_annotation]{plot_annotation()}}.}
 
 \item{design}{Specification of the location of areas in the layout. Can either
-be specified as a text string or by concatenating calls to \code{\link[=area]{area()}} together.
+be specified as a text string or by concatenating calls to \code{\link[patchwork:area]{area()}} together.
 See the examples for further information on use.}
 }
 \description{

@@ -44,10 +44,9 @@ get_layout_size <- function(gg, units = c("mm", "cm", "in")) {
 }
 
 #' multipage_plots
-#' @param gg descr
+#' @param gg A `ggplot` or list of `ggplot`s
 #'
-#' @param ncol descr
-#' @param nrow descr
+#' @param ncol,nrow The number of columns and rows per page.
 #' @inheritParams patchwork::wrap_plots
 #'
 #' @export
@@ -76,11 +75,10 @@ multipage_plots <- function(gg,
 }
 
 #' multipage_facets
-#' @param gg descr
+#' @param gg A `ggplot`
 #'
-#' @param facet_by descr
-#' @param ncol descr
-#' @param nrow descr
+#' @param facet_by Variable that should be used for faceting.
+#' @param ncol,nrow The number of columns and rows per page.
 #' @inheritParams patchwork::wrap_plots
 #'
 #' @export
@@ -113,14 +111,25 @@ multipage_facets <- function(gg,
 
 #' Save multipage layout to file
 #'
-#' This function takes a ggplot (for single page) or list of ggplots (for multi page) and writes them to file.
-#' In case the input has absolute dimensions, width and height of the output device are adjusted to fit the content.
+#' This function takes a `ggplot` or list of `ggplot`s and writes them to a (multipage) file. See below for details.
+#' 
+#' __Handling of multiple pages.__
+#' For a list of `ggplot`s, each list element is rendered as a separate page into a mutipage `pdf` file.
+#' To save pages as individual files, use `multiple_files = TRUE`.
+#' For output formats that do not support multipage files (`png`, `jpg`, etc), pages are saved to individual files by default.
 #'
-#' @param gg ggplot or list of ggplots
+#' __Handling of file dimensions.__
+#' Output file dimensions are determined according the the following precedence.
+#' 1) The `width` and `height` parameters of `save_multipage()`.
+#' 2) Dimensions inferred from an incoming `ggplot` object containing absolute dimensions.
+#' 3) System default device dimensions.
 #'
-#' @param width desr
-#' @param height desr
-#' @param units desr
+#' @param gg A `ggplot` or list of `ggplot`s
+#'
+#' @param width,height Dimensions of the saved plot. If not specified, `save_multipage()` will
+#' try to infer the dimensions from the incoming `ggplot` object. If the incoming `ggplot` object has no absolute
+#' dimensions, system default device dimensions are used.
+#' @param units Unit dimensions. Defaults to "mm".
 #' @param return_input Return the input ggplot or plotlist is after saving.
 #' This enables the use within `dplyr` pipes.
 #' @param multiple_files Save pages as individal files.
@@ -135,6 +144,9 @@ save_multipage <- function(gg = last_plot(), filename, device = NULL, path = NUL
 
   if (is.ggplot(gg)) gg <- list(gg)
   units <- match.arg(units)
+  
+  if (length(gg) > 1 && toupper(tools::file_ext(filename)) != "PDF")
+    multiple_files <- TRUE
 
   dimensions <- get_layout_size(gg, units)$max
 

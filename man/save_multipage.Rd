@@ -4,13 +4,24 @@
 \alias{save_multipage}
 \title{Save multipage layout to file}
 \usage{
-save_multipage(gg = last_plot(), filename, device = NULL,
-  path = NULL, scale = 1, width = NA, height = NA,
-  units = c("mm", "cm", "in"), dpi = 300, limitsize = TRUE,
-  return_input = FALSE, multiple_files = FALSE, ...)
+save_multipage(
+  gg = last_plot(),
+  filename,
+  device = NULL,
+  path = NULL,
+  scale = 1,
+  width = NA,
+  height = NA,
+  units = c("mm", "cm", "in"),
+  dpi = 300,
+  limitsize = TRUE,
+  return_input = FALSE,
+  multiple_files = FALSE,
+  ...
+)
 }
 \arguments{
-\item{gg}{ggplot or list of ggplots}
+\item{gg}{A \code{ggplot} or list of \code{ggplot}s}
 
 \item{filename}{File name to create on disk.}
 
@@ -22,11 +33,11 @@ save_multipage(gg = last_plot(), filename, device = NULL,
 
 \item{scale}{Multiplicative scaling factor.}
 
-\item{width}{desr}
+\item{width, height}{Dimensions of the saved plot. If not specified, \code{save_multipage()} will
+try to infer the dimensions from the incoming \code{ggplot} object. If the incoming \code{ggplot} object has no absolute
+dimensions, system default device dimensions are used.}
 
-\item{height}{desr}
-
-\item{units}{desr}
+\item{units}{Unit dimensions. Defaults to "mm".}
 
 \item{dpi}{Plot resolution. Also accepts a string input: "retina" (320),
 "print" (300), or "screen" (72). Applies only to raster output types.}
@@ -44,6 +55,19 @@ This enables the use within \code{dplyr} pipes.}
 as specified by \code{device}.}
 }
 \description{
-This function takes a ggplot (for single page) or list of ggplots (for multi page) and writes them to file.
-In case the input has absolute dimensions, width and height of the output device are adjusted to fit the content.
+This function takes a \code{ggplot} or list of \code{ggplot}s and writes them to a (multipage) file. See below for details.
+}
+\details{
+\strong{Handling of multiple pages.}
+For a list of \code{ggplot}s, each list element is rendered as a separate page into a mutipage \code{pdf} file.
+To save pages as individual files, use \code{multiple_files = TRUE}.
+For output formats that do not support multipage files (\code{png}, \code{jpg}, etc), pages are saved to individual files by default.
+
+\strong{Handling of file dimensions.}
+Output file dimensions are determined according the the following precedence.
+\enumerate{
+\item The \code{width} and \code{height} parameters of \code{save_multipage()}.
+\item Dimensions inferred from an incoming \code{ggplot} object containing absolute dimensions.
+\item System default device dimensions.
+}
 }

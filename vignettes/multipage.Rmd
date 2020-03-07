@@ -81,14 +81,14 @@ plots %>% multipage_plots(ncol = 2, nrow = 2,
 
 ```{r}
 
-bro_data_exprs_sel <- 
-  bro_data_exprs %>% 
+data_exprs_sel <- 
+  data_exprs %>% 
   nest(data = -external_gene_name) %>% 
   filter(row_number() %in% c(1:4,20:23)) %>% 
   unnest(cols = c(data))
 
 p5 <- 
-  bro_data_exprs_sel %>% 
+  data_exprs_sel %>% 
   ggplot(aes(group, expression, color = sample_type)) +
   geom_boxplot(width = 0.6, position = position_dodge(width = 0.8))
 
