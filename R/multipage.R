@@ -164,25 +164,16 @@ save_multipage <- function(gg = last_plot(), filename, device = NULL, path = NUL
   message("Device height ", height_defined_by)
   message("------------------------------------------------------")
   if (!is.na(width) && !is.na(height)) message("Saving ", round(width), " x ", round(height), " mm image")
-
+  
   if (multiple_files) {
     filenames <- burst_filename(filename, length(gg))
-    if (toupper(tools::file_ext(filename)) == "PDF") {
-      map2(gg, filenames,
-           function(x, y) {
-             ggplot2::ggsave(plot = x, filename = y, device = device, path = path, scale = scale,
-                             width = width, height = height, units = units, dpi = dpi, limitsize = limitsize,
-                             useDingbats = FALSE, ...)
-           })
-    } else {
-      map2(gg, filenames,
-           function(x, y) {
-             ggplot2::ggsave(plot = x, filename = y, device = device, path = path, scale = scale,
-                             width = width, height = height, units = units, dpi = dpi, limitsize = limitsize, ...)
-           })
-    }
+    map2(gg, filenames,
+         function(x, y) {
+           ggplot2::ggsave(plot = x, filename = y, device = device, path = path, scale = scale,
+                           width = width, height = height, units = units, dpi = dpi, limitsize = limitsize, ...)
+         })
     if(return_input) return(gg)
-
+    
   } else {
 
     # this code is adapted from ggplot2::ggsave()
@@ -193,11 +184,7 @@ save_multipage <- function(gg = last_plot(), filename, device = NULL, path = NUL
       filename <- file.path(path, filename)
     }
     old_dev <- grDevices::dev.cur()
-    if (toupper(tools::file_ext(filename)) == "PDF") {
-      dev(filename = filename, width = dim[1], height = dim[2], useDingbats = FALSE, ...)
-    } else {
-      dev(filename = filename, width = dim[1], height = dim[2], ...)
-    }
+    dev(filename = filename, width = dim[1], height = dim[2], ...)
     on.exit(utils::capture.output({
       grDevices::dev.off()
       if (old_dev > 1) grDevices::dev.set(old_dev)
